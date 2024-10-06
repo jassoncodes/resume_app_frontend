@@ -43,8 +43,8 @@ export const AppRouter = () =>
 
                         <Route path='/about' element={<AboutMe />} />
                         <Route path='/contact' element={<Contact />} />
-                        <Route path='*' element={<Error404 />} />
                         <Route path='/jassoncodes' element={<Navigate to={'/'} />} />
+                        <Route path='*' element={<Error404 />} />
 
                     </Route>
                     <Route path='live-resume' element={<LiveResume />} />
