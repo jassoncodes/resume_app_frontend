@@ -1,4 +1,4 @@
-import { Route, Routes, BrowserRouter } from 'react-router-dom'
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom'
 import { MainLayout } from '../components/MainLayout'
 import { AboutMe } from '../components/AboutMe'
 import { Contact } from '../components/Contact'
@@ -44,6 +44,7 @@ export const AppRouter = () =>
                         <Route path='/about' element={<AboutMe />} />
                         <Route path='/contact' element={<Contact />} />
                         <Route path='*' element={<Error404 />} />
+                        <Route path='/jassoncodes' element={<Navigate to={'/'} />} />
 
                     </Route>
                     <Route path='live-resume' element={<LiveResume />} />
