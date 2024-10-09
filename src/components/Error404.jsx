@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Col, Container, NavLink, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 
-export const Error404 = () =>
+export const Error404 = ({ errorMessage }) =>
 {
     const milliseconds = 5000;
     const [secondsRemaining, setSecondsRemaining] = useState(Math.floor(milliseconds / 1000));
@@ -29,13 +29,15 @@ export const Error404 = () =>
             });
         }, 1000);
         return () => clearInterval(timerId);
-    }, [secondsRemaining, navigateTo]);
+    },
+        [secondsRemaining, navigateTo]
+    );
 
     return (
-        <Container fluid as='section' className="h-100">
+        <Container fluid as='section' className="h-100 text-center mt-5">
             <Row>
                 <Col>
-                    <h4 className="m-0 p-2">404 Are you lost?</h4>
+                    <h4 className="m-0 p-2">{errorMessage ? errorMessage : "404 Are you lost?"}</h4>
                     <NavLink>
                         <span>No worries I'll get you home in {secondsRemaining}...</span>
                     </NavLink>

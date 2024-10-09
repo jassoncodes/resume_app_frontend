@@ -1,11 +1,20 @@
 import { useEffect, useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import Container from 'react-bootstrap/Container'
 import { LoadingData } from "./LoadingData";
+import { useNavigate } from 'react-router-dom';
 
+
+
+const host = import.meta.env.VITE_APP_HOST
+const port = import.meta.env.VITE_APP_PORT
+const endpoint = '/api/about'
+
+const apiRoute = `${host}:${port}${endpoint}`
 
 export const AboutMe = () =>
 {
+    const navigateTo = useNavigate();
     const [aboutData, setAboutData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [errors, setErrors] = useState("");
@@ -16,22 +25,28 @@ export const AboutMe = () =>
         {
             try
             {
-                const reqData = await fetch("https://localhost:5001/api/about");
-                const data = await reqData.json();
-
+                const reqData = await fetch(apiRoute);
                 if (reqData.status === 404)
                 {
                     setErrors("No information found")
+                } else
+                {
+                    const data = await reqData.json();
+
+                    setAboutData(data);
                 }
-
-                setAboutData(data);
                 setIsLoading(false);
-
             } catch (err)
             {
                 setErrors(`Error while fetching API: ${err.message}`);
             }
         }, 150)
+    }
+
+    const handleClick = (e) =>
+    {
+        e.preventDefault();
+        navigateTo('/contact');
     }
 
     useEffect(() =>
@@ -67,6 +82,9 @@ export const AboutMe = () =>
                         </Col>
                     </Row>
                 ))}
+                <Row className='my-5'>
+                    <Button onClick={handleClick} variant='dark' className='w-25 m-auto'>Contact</Button>
+                </Row>
             </Container>
         )
     }

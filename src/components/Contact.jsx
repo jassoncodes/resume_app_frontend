@@ -14,7 +14,7 @@ const icons = {
     'email': 'bi bi-inbox-fill',
     'phone': 'bi bi-whatsapp',
     'github': 'bi bi-github',
-    'linkedIn': 'bi bi-linkedin'
+    'linkedin': 'bi bi-linkedin'
 }
 
 const getIconClassName = (iconName) =>
@@ -25,11 +25,11 @@ const getIconClassName = (iconName) =>
 const ContacInfoItem = ({ label, value }) =>
 (
     <>
-        <i className={getIconClassName(label)}></i>
-        <div className="d-flex flex-column text-start mx-2">
-            <h6>{capitalize(label)}</h6>
-            <p className="m-0">{value}</p>
+        <div className="d-flex m-0 justify-content-center">
+            <i className={getIconClassName(label)}></i>
+            <h6 className="mx-2">{capitalize(label)}</h6>
         </div>
+        <p className="m-0">{value}</p>
     </>
 );
 
@@ -48,16 +48,16 @@ export const Contact = () =>
             try
             {
                 const dataReq = await fetch(apiRoute);
-                const data = await dataReq.json();
 
                 if (dataReq.status === 404)
                 {
                     setErrors("No contact information found");
+                } else
+                {
+                    const data = await dataReq.json();
+                    setContacInfo(data);
                 }
-
-                setContacInfo(data);
                 setIsLoading(false);
-
             } catch (err)
             {
                 setErrors(`Error while fetching API: ${err.message}`);
@@ -97,23 +97,19 @@ export const Contact = () =>
                         <p>Get in touch:</p>
                     </Col>
                 </Row>
-                {
-
-                    contactInfo.map((info) => (
-                        <Row key={info.id}>
-                            {
-                                Object.entries(info).map(([key, value]) => (
-                                    key !== "id" && (
-                                        <Col key={key} className="d-flex align-items-start">
-                                            <ContacInfoItem label={key} value={value} />
-                                        </Col>
-                                    )
-
-                                ))
-                            }
-                        </Row>
-                    ))
-                }
+                <Row className="py-2 text-center">
+                    {
+                        contactInfo.map((contactData) => (
+                            Object.entries(contactData).map(([key, value]) => (
+                                key !== "id" && (
+                                    <Col key={key} className="p-0 m-0">
+                                        <ContacInfoItem label={key} value={value} />
+                                    </Col>
+                                )
+                            ))
+                        ))
+                    }
+                </Row>
 
             </Container>
 

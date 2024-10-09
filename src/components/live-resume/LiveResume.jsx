@@ -6,6 +6,7 @@ import { LiveResumeHeader } from "./components/LiveResumeHeader"
 import { LiveResumeExperience } from "./components/LiveResumeExperience"
 import { LiveResumeProjects } from "./components/LiveResumeProjects"
 import { LiveResumeStudies } from "./components/LiveResumeStudies"
+import { Error404 } from "../Error404"
 
 const host = import.meta.env.VITE_APP_HOST
 const port = import.meta.env.VITE_APP_PORT
@@ -33,24 +34,28 @@ export const LiveResume = () =>
             try
             {
                 const dataReq = await fetch(apiRoute);
-                const data = await dataReq.json();
 
                 if (dataReq.status === 404)
                 {
-                    setErrors("No contact information found");
-                }
-
-                Object.entries(data).map(([key, value]) =>
+                    setErrors("No information found");
+                } else
                 {
-                    setAbout(value.about);
-                    setContact(value.contact);
-                    setExperience(value.experience);
-                    setProjects(value.projects);
-                    setStudy(value.study);
-                }
-                );
 
-                setIsLoading(false);
+                    const data = await dataReq.json();
+
+                    Object.entries(data).map(([key, value]) =>
+                    {
+                        setAbout(value.about);
+                        setContact(value.contact);
+                        setExperience(value.experience);
+                        setProjects(value.projects);
+                        setStudy(value.study);
+                    }
+                    );
+
+                    setIsLoading(false);
+                }
+
 
             } catch (err)
             {
@@ -69,7 +74,7 @@ export const LiveResume = () =>
 
     if (errors !== "")
     {
-        return <div>{errors}</div>
+        return <Error404 errorMessage={errors} />
     } else if (isLoading)
     {
         return (

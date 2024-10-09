@@ -17,7 +17,7 @@ const getIconClassName = (iconName) =>
 const ContacInfoItem = ({ label, value }) =>
 (
     <>
-        <div className="d-flex m-0">
+        <div className="d-flex m-0 justify-content-center">
             <i className={getIconClassName(label)}></i>
             <h6 className="mx-2">{capitalize(label)}</h6>
         </div>
@@ -39,7 +39,7 @@ export const LiveResumeHeader = ({ lrAbout, lrContact }) =>
                     ))
                 }
             </Row>
-            <Row className="py-2">
+            <Row className="py-2 text-center">
                 {
                     lrContact.map((contactData) => (
                         Object.entries(contactData).map(([key, value]) => (

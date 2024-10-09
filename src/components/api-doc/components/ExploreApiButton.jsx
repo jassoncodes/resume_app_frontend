@@ -28,16 +28,16 @@ export const ExploreApiButton = ({ endpoint }) =>
             try
             {
                 const dataReq = await fetch(apiRoute);
-                const data = await dataReq.json();
 
                 if (dataReq.status === 404)
                 {
-                    setErrors("No contact information found");
+                    setErrors("No information found");
+                } else
+                {
+                    const data = await dataReq.json();
+                    setApiData(data);
+                    setIsLoading(false);
                 }
-
-                setApiData(data);
-                setIsLoading(false);
-
             } catch (err)
             {
                 setErrors(`Error while fetching API: ${err.message}`);
